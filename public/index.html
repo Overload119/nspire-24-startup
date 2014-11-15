@@ -37,12 +37,12 @@
   <!-- templates -->
   <script id="profile-card-template" type="text/handlebars">
     <div class="profile-card">
-      <div class="portrait" style="background-image: url('{{ pictureUrl }}')"></div>
+      <div class="portrait" style="background-image: url('{{ linkedIn.pictureUrl }}')"></div>
       <div class="information">
-        <div class="name">{{ firstName }}</div>
-        <div class="title">{{ headline }}</div>
+        <div class="name">{{ linkedIn.firstName }}</div>
+        <div class="title">{{ linkedIn.headline }}</div>
+        <div class="distance">approx. {{ distance }}km away</div>
       </div>
-
     </div>
     {{ emailAddress }}
   </script>

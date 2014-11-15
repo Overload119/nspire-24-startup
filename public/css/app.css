@@ -63,6 +63,32 @@ input[type=search]:active, input[type=search]:focus {
   padding: 1em;
 }
 
+.profile-card {
+  border-radius: 4px;
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+
+.profile-card:hover {
+  background-color: #C8CFD3;
+  cursor: pointer;
+}
+
+.profile-card .portrait {
+  width: 5em;
+  height: 4.6em;
+  border-radius: 8px;
+  float: left;
+  margin-right: 1em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.profile-card .name {
+  font-size: 1.15em;
+}
+
 .how-it-works.slide-out {
   -webkit-transform: translateX(-100%);
   -webkit-transition: opacity 500ms ease-out 0, -webkit-transform 500ms ease-out 0;

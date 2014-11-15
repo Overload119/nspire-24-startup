@@ -26,11 +26,15 @@ app.post('/search', function(req, res) {
   var keywords = req.body.query;
   var currentUserEmail = req.body.userEmail;
 
+  if (keywords == null || keywords.trim() === '') {
+    res.json({ success: false, results: [] });
+  }
+
   // TODO Ignore the ID of the given user.
   var result = es.search({
     index: 'users',
-    size: 30,
-    query: { q: keywords }
+    size: 15,
+    q: keywords
   }).then(function(body) {
     var sourceResults = body.hits.hits.filter(function(esResult) {
       return true;//esResult._source.linkedIn['emailAddress'] !== currentUserEmail;
@@ -50,7 +54,6 @@ app.get('/get_users', function(req, res) {
     index: 'users',
     size: 50,
     body: {
-
     }
   });
 });

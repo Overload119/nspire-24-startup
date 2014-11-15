@@ -4,6 +4,16 @@
   var map;
   var linkedInResult;
 
+  if (localStorage.getItem('lat')) {
+    lat = parseFloat(localStorage.getItem('lat'));
+    hasLocation = true;
+  }
+
+  if (localStorage.getItem('lng')) {
+    lng = parseFloat(localStorage.getItem('lat'));
+    hasLocation = true;
+  }
+
   var getDistanceFromLatLngInKm = function(lat1,lon1,lat2,lon2) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -25,7 +35,7 @@
   var ProfileCardView = Backbone.View.extend({
     initialize: function(data) {
       this.person = data.person;
-      this.render();
+      return this.render();
     },
     render: function() {
       template = Handlebars.compile($('#profile-card-template').html());
@@ -35,7 +45,7 @@
       templateData.distance = getDistanceFromLatLngInKm(lat, lng,
         this.person.location.lat, this.person.location.lng);
 
-      this.$el.html(template(this.person.linkedIn));
+      this.$el.html(template(this.person));
       return this.$el;
     }
   });
@@ -77,8 +87,8 @@
         success: function(response) {
           if (response.success) {
             for (var i = 0; i < response.results.length; i++) {
-              var profileCardEl = new ProfileCardView({ person: response.results[i] });
-              profileCardEl.appendTo( this.$el );
+              var profileCardView = new ProfileCardView({ person: response.results[i] });
+              this.$el.find('#search-result-list').empty().append( profileCardView.$el );
             }
           } else {
             this.$el.find('#search-result-list').empty().append('No results found.');
@@ -101,6 +111,10 @@
       lat = position.coords.latitude;
       lng = position.coords.longitude;
       hasLocation = true;
+
+      localStorage.setItem('lat', lat);
+      localStorage.setItem('lng', lat);
+
       centerGoogleMaps(lat, lng);
       saveUser();
     }
@@ -110,7 +124,7 @@
       alert('We failed to get your location to connect you to people nearby. Please refresh the page.');
     }
 
-    if (navigator.geolocation) {
+    if (navigator.geolocation && !hasLocation) {
       navigator.geolocation.getCurrentPosition(positionCallback, positionFailCallback)
     }
   }
