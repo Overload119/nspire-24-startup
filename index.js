@@ -1,6 +1,11 @@
-var express = require('express');
-var config  = require('./config.js');
-var app     = express();
+var express       = require('express');
+var elasticsearch = require('elasticsearch');
+var config        = require('./config.js');
+var app           = express();
+var es            = new elasticsearch.Client({
+                      host: 'localhost:9200',
+                      log: 'trace'
+                    });
 
 app.use(express.static(__dirname + '/public'));
 
