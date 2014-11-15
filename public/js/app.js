@@ -1,12 +1,41 @@
 (function(global) {
 
+  var lat, lng, hasLocation = false;
+  var map;
+  var linkedInResult;
+
+  var getDistanceFromLatLngInKm = function(lat1,lon1,lat2,lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = deg2rad(lon2-lon1);
+    var a =
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ;
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c; // Distance in km
+    return d;
+  }
+
+  var deg2rad = function deg2rad(deg) {
+    return deg * (Math.PI/180);
+  }
+
   var ProfileCardView = Backbone.View.extend({
     initialize: function(data) {
       this.person = data.person;
+      this.render();
     },
     render: function() {
       template = Handlebars.compile($('#profile-card-template').html());
-      this.$el.html(template(this.person));
+      var templateData = this.person;
+
+      // Compute the distance between the current user.
+      templateData.distance = getDistanceFromLatLngInKm(lat, lng,
+        this.person.location.lat, this.person.location.lng);
+
+      this.$el.html(template(this.person.linkedIn));
       return this.$el;
     }
   });
@@ -40,32 +69,24 @@
     },
     triggerSearch: function() {
       var query = this.$el.find('#search').val();
-      debugger
       $.ajax({
         url: '/search',
         type: 'POST',
         contentType: 'application/json',
-        dataType: 'application/json',
-        data: JSON.stringify({ query: query }),
+        data: JSON.stringify({ query: query, userEmail: linkedInResult.emailAddress }),
         success: function(response) {
-          debugger
           if (response.success) {
-            debugger
             for (var i = 0; i < response.results.length; i++) {
-              var profileCardEl = new ProfileCardView({ person: response.results[i].linkedIn });
+              var profileCardEl = new ProfileCardView({ person: response.results[i] });
               profileCardEl.appendTo( this.$el );
             }
           } else {
             this.$el.find('#search-result-list').empty().append('No results found.');
           }
-        }
+        }.bind(this)
       });
     },
   });
-
-  var lat, lng, hasLocation = false;
-  var map;
-  var linkedInResult;
 
   $('.hero').height($(window).height());
   $('.front button').click(function() {
@@ -81,11 +102,12 @@
       lng = position.coords.longitude;
       hasLocation = true;
       centerGoogleMaps(lat, lng);
+      saveUser();
     }
 
     var positionFailCallback = function() {
-      alert('We failed to get your location to connect you to people nearby. Please refresh the page.');
       $('.front button').addClass('disabled').prop('disabled', 'disabled');
+      alert('We failed to get your location to connect you to people nearby. Please refresh the page.');
     }
 
     if (navigator.geolocation) {
@@ -98,7 +120,6 @@
       url: '/save_user',
       type: 'POST',
       contentType: 'application/json',
-      dataType: 'application/json',
       data: JSON.stringify({
         linkedIn: linkedInResult,
         location: { lat: lat, lng: lng }
@@ -107,8 +128,6 @@
         if (response.success) {
           console.log('Information saved.');
         }
-      },
-      error: function() {
       }
     });
   }
