@@ -1,16 +1,21 @@
 (function(global) {
 
+  vex.defaultOptions.className = 'vex-theme-flat-attack';
+
+  var LAT_KEY = 'lat_21';
+  var LNG_KEY = 'lng_21';
+
   var lat, lng, hasLocation = false;
   var map;
   var linkedInResult;
 
-  if (localStorage.getItem('lat')) {
-    lat = parseFloat(localStorage.getItem('lat'));
+  if (localStorage.getItem(LAT_KEY)) {
+    lat = parseFloat(localStorage.getItem(LAT_KEY));
     hasLocation = true;
   }
 
-  if (localStorage.getItem('lng')) {
-    lng = parseFloat(localStorage.getItem('lat'));
+  if (localStorage.getItem(LNG_KEY)) {
+    lng = parseFloat(localStorage.getItem(LNG_KEY));
     hasLocation = true;
   }
 
@@ -33,6 +38,9 @@
   }
 
   var ProfileCardView = Backbone.View.extend({
+    events: {
+      'click .profile-card': 'onClickProfileCard'
+    },
     initialize: function(data) {
       this.person = data.person;
       return this.render();
@@ -40,13 +48,21 @@
     render: function() {
       template = Handlebars.compile($('#profile-card-template').html());
       var templateData = this.person;
-
       // Compute the distance between the current user.
-      templateData.distance = getDistanceFromLatLngInKm(lat, lng,
+      this.person.distance = getDistanceFromLatLngInKm(lat, lng,
         this.person.location.lat, this.person.location.lng);
+
+      this.person.hasSkills = this.person.linkedIn.skills._total > 0;
+      this.person.hasPositions = this.person.linkedIn.threePastPositions._total > 0;
 
       this.$el.html(template(this.person));
       return this.$el;
+    },
+    onClickProfileCard: function() {
+      template = Handlebars.compile($('#profile-dialog-template').html());
+      vex.open({
+        content: template(this.person)
+      });
     }
   });
 
@@ -61,6 +77,9 @@
       $('.hero').removeAttr('style').addClass('condense');
       $('.how-it-works').addClass('slide-out').one('webkitTransitionEnd transitionend', function() {
         $('.how-it-works').hide();
+        if (hasLocation) {
+          centerGoogleMaps(lat, lng);
+        }
       });
       $('.search-results').addClass('slide-in');
     },
@@ -107,16 +126,19 @@
   });
 
   var setupLocation = function() {
+    console.log('Setting up location...');
+
     var positionCallback = function(position) {
       lat = position.coords.latitude;
       lng = position.coords.longitude;
       hasLocation = true;
 
-      localStorage.setItem('lat', lat);
-      localStorage.setItem('lng', lat);
+      localStorage.setItem(LAT_KEY, lat);
+      localStorage.setItem(LNG_KEY, lng);
 
       centerGoogleMaps(lat, lng);
       saveUser();
+      console.log('Location has been set.');
     }
 
     var positionFailCallback = function() {

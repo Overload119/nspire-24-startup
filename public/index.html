@@ -3,6 +3,9 @@
 <head>
   <link rel="stylesheet" href="css/foundation.css" />
   <link rel="stylesheet" href="css/foundation.min.css" />
+  <link rel="stylesheet" href="css/vex-theme-flat-attack.css" />
+  <link rel="stylesheet" href="css/vex.css" />
+  <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/app.css" />
 </head>
 <body>
@@ -44,7 +47,49 @@
         <div class="distance">approx. {{ distance }}km away</div>
       </div>
     </div>
-    {{ emailAddress }}
+  </script>
+
+  <script id="profile-dialog-template" type="text/handlebars">
+    <div class="profile-dialog">
+      <div class="header">
+        <div class="portrait" style="background-image: url('{{ linkedIn.pictureUrl }}')"></div>
+        <div class="name">{{ linkedIn.firstName }}</div>
+        <div class="title">{{ linkedIn.headline }}</div>
+        <div class="distance">approx. {{ distance }}km away</div>
+      </div>
+
+      <div class="information">
+        {{#if hasInterests}}
+          <div class="section">
+            <div class="title">Interests</div>
+            <p>{{ linkedIn.interests }}</p>
+          </div>
+        {{/if}}
+
+        {{#if hasSkills}}
+          <div class="section">
+            <div class="title">Skills</div>
+            <p>
+            {{#each linkedIn.skills.values}}
+              <span>{{ this.skill.name }}</span>&nbsp;
+            {{/each}}
+            </p>
+          </div>
+        {{/if}}
+
+        {{#if hasPositions}}
+          <div class="section">
+            <div class="title">Worked At</div>
+            <ul>
+            {{#each linkedIn.threePastPositions.values}}
+              <li>{{ this.company.name }}</li>
+            {{/each}}
+            </ul>
+          </div>
+        {{/if}}
+      </div>
+      <button>Contact</button>
+    </div>
   </script>
 
   <!-- vendor scripts -->
@@ -61,6 +106,7 @@
   <script type="text/javascript" src="js/handlebars-v2.0.0.js"></script>
   <script type="text/javascript" src="js/underscore-min.js"></script>
   <script type="text/javascript" src="js/backbone-min.js"></script>
+  <script type="text/javascript" src="js/vex.combined.min.js"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZPkrkNR-_s1uXd5vZ4ehR82Qd5CbUZ9c"></script>
 
   <!-- our script -->

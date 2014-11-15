@@ -1,4 +1,5 @@
 body {
+  font-family: 'Roboto', sans-serif;
 }
 
 .hero {
@@ -87,6 +88,31 @@ input[type=search]:active, input[type=search]:focus {
 
 .profile-card .name {
   font-size: 1.15em;
+}
+
+/* Profile Dialog */
+.profile-dialog .name {
+  font-size: 1.25em;
+}
+
+.profile-dialog .distance {
+  font-size: 0.9em;
+};
+
+.portrait {
+  width: 5em;
+  height: 4.6em;
+  border-radius: 8px;
+  float: left;
+  margin-right: 1em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.profile-dialog .information {
+  clear: both;
+  margin-top: 1em;
 }
 
 .how-it-works.slide-out {
