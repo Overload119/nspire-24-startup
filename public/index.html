@@ -17,7 +17,7 @@
 
   <div class="how-it-works">
     <div class="row">
-      <div class="large-8 large-centered">
+      <div class="large-8 large-centered columns">
         <h1>Connect with professionals around you</h1>
         <p>How it works</p>
       </div>
@@ -26,14 +26,26 @@
 
   <div class="search-results">
     <div class="row">
-      <div class="large-8 large-centered">
-        <input type="search" placeholder="Search for skills of people around you" />
+      <div class="large-8 large-centered columns">
+        <input id="search" type="search" placeholder="Search for skills of people around you" />
         <p class="popular-searches">Popular searches: rails, marketing, business</p>
+        <div id="search-result-list"></div>
       </div>
     </div>
   </div>
 
   <!-- templates -->
+  <script id="profile-card-template" type="text/handlebars">
+    <div class="profile-card">
+      <div class="portrait" style="background-image: url('{{ pictureUrl }}')"></div>
+      <div class="information">
+        <div class="name">{{ firstName }}</div>
+        <div class="title">{{ headline }}</div>
+      </div>
+
+    </div>
+    {{ emailAddress }}
+  </script>
 
   <!-- vendor scripts -->
   <script type="text/javascript" src="http://platform.linkedin.com/in.js" async>
@@ -41,11 +53,15 @@
     authorize: true
     onLoad: onLinkedInLoad
   </script>
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZPkrkNR-_s1uXd5vZ4ehR82Qd5CbUZ9c"></script>
+
   <script type="text/javascript" src="js/jquery.js"></script>
   <script type="text/javascript" src="js/jquery.cookie.js"></script>
   <script type="text/javascript" src="js/modernizr.js"></script>
   <script type="text/javascript" src="js/foundation.min.js"></script>
+  <script type="text/javascript" src="js/handlebars-v2.0.0.js"></script>
+  <script type="text/javascript" src="js/underscore-min.js"></script>
+  <script type="text/javascript" src="js/backbone-min.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZPkrkNR-_s1uXd5vZ4ehR82Qd5CbUZ9c"></script>
 
   <!-- our script -->
   <script type="text/javascript" src="js/app.js"></script>

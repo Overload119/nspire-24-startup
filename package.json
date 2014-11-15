@@ -9,7 +9,8 @@
   "dependencies": {
     "express": "",
     "request": "",
-    "elasticsearch": ""
+    "elasticsearch": "",
+    "body-parser": ""
   },
   "author": "",
   "license": "MIT"
