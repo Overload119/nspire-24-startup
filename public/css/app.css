@@ -95,6 +95,8 @@ input[type=search]:active, input[type=search]:focus {
 }
 
 /* Profile Dialog */
+
+
 .profile-dialog textarea {
   display: none;
   width: 100%;
@@ -111,7 +113,11 @@ input[type=search]:active, input[type=search]:focus {
 }
 
 .profile-dialog .distance {
-  font-size: 0.9em;
+  font-size: 0.75em;
+}
+
+.profile-dialog .title {
+  font-size: 0.8em;
 }
 
 .profile-dialog {

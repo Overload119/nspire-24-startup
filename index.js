@@ -47,7 +47,7 @@ app.post('/contact', function(req, res) {
       headers: {
         'Reply-To': currentUserEmail
       },
-      from_email: 'orange@peel.com',
+      from_email: 'orange@getpeeled.ca',
       from_name: 'OrangePeel',
       to: [
         {

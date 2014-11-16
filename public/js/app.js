@@ -126,16 +126,8 @@
                 var personData = preparePersonObject(response.results[i]);
                 var marker = new google.maps.Marker({
                   position: personData.location,
-                  map: map,
-                  title: personData.linkedIn.firstName
+                  map: map
                 });
-                var onClickMarker = function() {
-                  template = Handlebars.compile($('#profile-dialog-template').html());
-                  vex.open({
-                    content: template(personData)
-                  });
-                };
-                google.maps.event.addListener(marker, 'click', onClickMarker);
               })();
             }
           }
