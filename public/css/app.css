@@ -99,7 +99,12 @@ input[type=search]:active, input[type=search]:focus {
   font-size: 0.9em;
 }
 
-.portrait {
+.profile-dialog {
+  max-height: 500px;
+  overflow: auto;
+}
+
+.profile-dialog .portrait {
   width: 5em;
   height: 4.6em;
   border-radius: 8px;

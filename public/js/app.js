@@ -39,8 +39,8 @@
 
   var preparePersonObject = function(person) {
     // Compute the distance between the current user.
-    person.distance = getDistanceFromLatLngInKm(lat, lng,
-      person.location.lat, person.location.lng);
+    person.distance = Math.round(getDistanceFromLatLngInKm(lat, lng,
+      person.location.lat, person.location.lng) * 100) / 100;
 
     person.hasSkills = person.linkedIn.skills._total > 0;
     person.hasPositions = person.linkedIn.threePastPositions._total > 0;
@@ -92,18 +92,21 @@
         success: function(response) {
           if (response.success) {
             for (var i = 0; i < response.results.length; i++) {
-              var personData = preparePersonObject(response.results[i]);
-              var marker = new google.maps.Marker({
-                position: personData.location,
-                map: map,
-                title: personData.linkedIn.firstName
-              });
-              google.maps.event.addListener(marker, 'click', function() {
-                template = Handlebars.compile($('#profile-dialog-template').html());
-                vex.open({
-                  content: template(personData)
+              (function() {
+                var personData = preparePersonObject(response.results[i]);
+                var marker = new google.maps.Marker({
+                  position: personData.location,
+                  map: map,
+                  title: personData.linkedIn.firstName
                 });
-              });
+                var onClickMarker = function() {
+                  template = Handlebars.compile($('#profile-dialog-template').html());
+                  vex.open({
+                    content: template(personData)
+                  });
+                  google.maps.event.addListener(marker, 'click', onClickMarker);
+                };
+              })();
             }
           }
         }
