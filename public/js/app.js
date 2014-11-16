@@ -44,11 +44,11 @@
 
     // Temp fix, just fake a distance.
     if (!person.distance || isNaN(person.distance)) {
-      person.distance = Math.random() * 8;
+      person.distance = 0.04;
     }
 
-    person.hasSkills = person.linkedIn.skills._total > 0;
-    person.hasPositions = person.linkedIn.threePastPositions._total > 0;
+    person.hasSkills = person.linkedIn.skills && person.linkedIn.skills._total > 0;
+    person.hasPositions = person.linkedIn.threePastPositions && person.linkedIn.threePastPositions._total > 0;
     return person;
   }
 

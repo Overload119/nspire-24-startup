@@ -123,6 +123,12 @@ input[type=search]:active, input[type=search]:focus {
   background-size: contain;
 }
 
+.profile-card .information .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .profile-card .name {
   font-size: 1.15em;
 }
