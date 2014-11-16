@@ -9,6 +9,14 @@ body {
   width: 100%;
 }
 
+.orange-peel {
+  color: #FF9800;
+  font-size: 2em;
+  font-family: "Lobster", "sans-serif";
+  display: none;
+  text-align: center;
+}
+
 button {
   outline: none;
 }
@@ -73,7 +81,7 @@ button {
 
 .hero.condense {
   height: 60%;
-  margin: 5% 5% 0 5%;
+  margin: 0% 5% 0 5%;
   width: 90%;
   -webkit-transition: margin 500ms ease-out, width 500ms ease-out, height 500ms ease-out;
   -moz-transition: margin 500ms ease-out, width 500ms ease-out, height 500ms ease-out;

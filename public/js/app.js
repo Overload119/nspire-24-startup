@@ -110,6 +110,7 @@
     },
     initialize: function() {
       this._searchTimer = null;
+      $('.orange-peel').slideDown();
       $('.front').fadeOut();
       $('.hero').removeAttr('style').addClass('condense');
       $('.how-it-works').addClass('slide-out').one('webkitTransitionEnd transitionend', function() {
@@ -132,6 +133,13 @@
                   var marker = new google.maps.Marker({
                     position: personData.location,
                     map: map
+                  });
+
+                  google.maps.event.addListener(marker, 'click', function() {
+                    template = Handlebars.compile($('#profile-dialog-template').html());
+                    vex.open({
+                      content: template(personData)
+                    });
                   });
                 }
               })();
