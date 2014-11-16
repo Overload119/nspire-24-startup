@@ -1,3 +1,9 @@
+/*
+orange: FF9800
+blue: 263248
+lightblue: 7E8AA2
+*/
+
 body {
   font-family: "Roboto", sans-serif;
   width: 100%;
@@ -30,19 +36,39 @@ button {
   z-index: 2;
   background: rgba(255, 255, 255, 0.8);
   text-align: center;
+  box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.2);
+  padding: 1em;
+  border-radius: 8px;
+}
+
+.hero .front h1 {
+  font-size: 3em;
+  color: #FF9800;
+  font-family: "Lobster", "sans-serif";
+}
+
+.hero .front h2 {
+  font-size: 1.4em;
+  margin-bottom: 1em;
 }
 
 .hero .front button {
   color: #222;
   outline: none;
   border: 2px solid #222;
-  padding: 0.4em;
+  padding: 0.8em;
   background: transparent;
   border-radius: 4px;
+  transition: none;
+  -webkit-transition: none;
 }
 
 .hero .front button:hover {
-  border-color: #C8CFD3;
+  border-color: #FF9800;
+  color: #FFF;
+  background: #FF9800;
+  transition: none;
+  -webkit-transition: none;
 }
 
 .hero.condense {
@@ -56,16 +82,18 @@ button {
 input[type=search] {
   font-size: 2em;
   border: 0;
-  border-bottom: 2px solid #486F88;
+  border-bottom: 2px solid #7E8AA2;
   width: 100%;
   outline: none;
   width: 100%;
   padding: 0.25em;
-  color: #486F88;
+  color: #7E8AA2;
+  font-family: 'Roboto', 'sans-serif';
 }
 
 input[type=search]:active, input[type=search]:focus {
-  border-color: #123752;
+  border-color: #263248;
+  color: #7E8AA2;
 }
 
 .how-it-works {
@@ -79,7 +107,8 @@ input[type=search]:active, input[type=search]:focus {
 }
 
 .profile-card:hover {
-  background-color: #C8CFD3;
+  color: #FFF;
+  background-color: #7E8AA2;
   cursor: pointer;
 }
 
@@ -99,29 +128,67 @@ input[type=search]:active, input[type=search]:focus {
 }
 
 /* Profile Dialog */
+.profile-dialog button {
+  color: #222;
+  outline: none;
+  border: 2px solid #222;
+  padding: 0.8em;
+  background: transparent;
+  border-radius: 4px;
+  transition: none;
+  -webkit-transition: none;
+}
 
+.profile-dialog button:hover {
+  border-color: #FF9800;
+  color: #FFF;
+  background: #FF9800;
+  transition: none;
+  -webkit-transition: none;
+}
+
+.profile-dialog i {
+  color: #FF9800;
+}
 
 .profile-dialog textarea {
-  display: none;
   width: 100%;
-  height: 4em;
   margin-bottom: 1em;
   padding: 8px;
   border-radius: 4px;
+  border: 0;
   outline: none;
   font-size: 0.6em;
+  height: 0px;
+  min-height: 0px;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.profile-dialog textarea.appear {
+  height: 100px;
+  border: 2px solid #263248;
+  -webkit-transition: height 250ms ease-out, border 250ms ease-out;
+  -moz-transition: height 250ms ease-out, border 250ms ease-out;
+  transition: height 250ms ease-out, border 250ms ease-out;
+  visibility: visible;
 }
 
 .profile-dialog .name {
   font-size: 1.25em;
+  line-height: normal;
+  color: #263248;
 }
 
 .profile-dialog .distance {
   font-size: 0.75em;
+  line-height: normal;
 }
 
 .profile-dialog .title {
   font-size: 0.8em;
+  line-height: normal;
+  color: #263248;
 }
 
 .profile-dialog {
@@ -142,7 +209,11 @@ input[type=search]:active, input[type=search]:focus {
 
 .profile-dialog .information {
   clear: both;
-  margin-top: 1em;
+  margin-top: 1.5em;
+}
+
+.profile-dialog .information .title {
+  color: #263248;
 }
 
 .how-it-works.slide-out {

@@ -9,22 +9,23 @@
   <link rel="stylesheet" href="css/vex-theme-flat-attack.css" />
   <link rel="stylesheet" href="css/vex.css" />
   <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/app.css" />
 </head>
 <body>
   <div class="hero">
     <div id="gmap"></div>
     <div class="front">
-      <h1>Connect with professionals around you</h1>
-      <h3>Placeholder text describing our missions</h3>
-      <button>Connect ></button>
+      <h1>OrangePeel</h1>
+      <h2>A local directory of entrepreneurs that are looking to connect.</h2>
+      <button>I want to connect ></button>
     </div>
   </div>
 
   <div class="how-it-works">
     <div class="row">
       <div class="large-8 large-centered columns">
-        <h1>Connect with professionals around you</h1>
+        <h1>Connect with student entrepreneurs around you.</h1>
         <p>How it works</p>
       </div>
     </div>
@@ -47,7 +48,7 @@
       <div class="information">
         <div class="name">{{ linkedIn.firstName }}</div>
         <div class="title">{{ linkedIn.headline }}</div>
-        <div class="distance">approx. {{ distance }}km away</div>
+        <div class="distance">~{{ distance }}km away</div>
       </div>
     </div>
   </script>
@@ -58,7 +59,7 @@
         <div class="portrait" style="background-image: url('{{ linkedIn.pictureUrl }}')"></div>
         <div class="name">{{ linkedIn.firstName }}</div>
         <div class="title">{{ linkedIn.headline }}</div>
-        <div class="distance">approx. {{ distance }}km away</div>
+        <div class="distance">~{{ distance }}km away</div>
       </div>
 
       <div class="information">
@@ -94,8 +95,9 @@
           </div>
         {{/if}}
       </div>
+      <p>Does {{ firstName }} sound <i>apeeling</i> to you? Then send a message!</p>
       <textarea placeholder="Attach a message."></textarea>
-      <button data-uuid="{{ uuid }}">Contact</button>
+      <button data-uuid="{{ uuid }}">Connect</button>
     </div>
   </script>
 

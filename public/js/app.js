@@ -64,14 +64,15 @@
         }),
         success: function(response) {
           if (response.success) {
-            $diaEl.find('button').prop('disabled', 'disabled').addClass('disabled').html('Sent!');
-            $diaEl.find('textarea').slideUp();
+            $diaEl.find('button').hide();
+            $diaEl.find('textarea').hide();
+            $diaEl.find('p:last').text('Your message has been sent.');
           }
         }
       });
     } else {
-      $(this).html('Send');
-      $(this).closest('.profile-dialog').find('textarea').slideDown();
+      $(this).html('Send Message');
+      $(this).closest('.profile-dialog').find('textarea').addClass('appear');
       $(this).data('ready', true);
     }
   });
@@ -86,9 +87,7 @@
     },
     render: function() {
       template = Handlebars.compile($('#profile-card-template').html());
-      var templateData = preparePersonObject(this.person);
-
-      this.$el.html(template(templateData));
+      this.$el.html(template(this.person));
       return this.$el;
     },
     onClickProfileCard: function() {
@@ -157,10 +156,19 @@
         success: function(response) {
           if (response.success) {
             this.$el.find('#search-result-list').empty();
+            var allViews = [];
             for (var i = 0; i < response.results.length; i++) {
-              var profileCardView = new ProfileCardView({ person: response.results[i] });
-              this.$el.find('#search-result-list').append( profileCardView.$el );
+              allViews.push(new ProfileCardView({ person: preparePersonObject(response.results[i]) }));
             }
+
+            // Clientside sorting by distance
+            allViews.sort(function(a, b) {
+              return a.person.distance - b.person.distance;
+            });
+
+            allViews.forEach(function(view) {
+              this.$el.find('#search-result-list').append( view.$el );
+            }.bind(this));
           } else {
             this.$el.find('#search-result-list').empty().append('No results found.');
           }
@@ -188,7 +196,6 @@
       localStorage.setItem(LAT_KEY, lat);
       localStorage.setItem(LNG_KEY, lng);
 
-      centerGoogleMaps(lat, lng);
       saveUser();
       console.log('Location has been set.');
     }
@@ -222,6 +229,7 @@
 
   var setupLinkedInProfile = function(response) {
     linkedInResult = response.values[0];
+    setupLocation();
     saveUser();
     // Once they login with LinkedIn, show result view.
     new SearchResultView();
@@ -244,7 +252,7 @@
         draggable: true,
         zoomControl: true,
         scrollwheel: true,
-        disableDoubleClickZoom: false
+        disableDoubleClickZoom: false,
         disableDefaultUI: false
       });
     }
@@ -255,7 +263,7 @@
     // We also disable the interactivity of the map.
     var mapOptions = {
       center: { lat: 43.4631701, lng: -80.5224624 },
-      zoom: 12.5,
+      zoom: 14,
       draggable: false,
       zoomControl: false,
       scrollwheel: false,
@@ -268,6 +276,5 @@
 
   $(document).ready(function() {
     google.maps.event.addDomListener(window, 'load', loadGoogleMaps);
-    setupLocation();
   });
 })(this);
