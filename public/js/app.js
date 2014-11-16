@@ -128,10 +128,12 @@
             for (var i = 0; i < response.results.length; i++) {
               (function() {
                 var personData = preparePersonObject(response.results[i]);
-                var marker = new google.maps.Marker({
-                  position: personData.location,
-                  map: map
-                });
+                if (!$.isEmptyObject(personData.location)) {
+                  var marker = new google.maps.Marker({
+                    position: personData.location,
+                    map: map
+                  });
+                }
               })();
             }
           }
