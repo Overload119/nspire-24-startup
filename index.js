@@ -59,7 +59,7 @@ app.post('/contact', function(req, res) {
     }
 
     mandrillClient.messages.send({
-      message: message,
+      message: message || 'Connect with me!',
       async: false
     });
 
