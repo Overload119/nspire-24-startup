@@ -37,6 +37,16 @@
     return deg * (Math.PI/180);
   }
 
+  var preparePersonObject = function(person) {
+    // Compute the distance between the current user.
+    person.distance = getDistanceFromLatLngInKm(lat, lng,
+      person.location.lat, person.location.lng);
+
+    person.hasSkills = person.linkedIn.skills._total > 0;
+    person.hasPositions = person.linkedIn.threePastPositions._total > 0;
+    return person;
+  }
+
   var ProfileCardView = Backbone.View.extend({
     events: {
       'click .profile-card': 'onClickProfileCard'
@@ -47,15 +57,9 @@
     },
     render: function() {
       template = Handlebars.compile($('#profile-card-template').html());
-      var templateData = this.person;
-      // Compute the distance between the current user.
-      this.person.distance = getDistanceFromLatLngInKm(lat, lng,
-        this.person.location.lat, this.person.location.lng);
+      var templateData = preparePersonObject(this.person);
 
-      this.person.hasSkills = this.person.linkedIn.skills._total > 0;
-      this.person.hasPositions = this.person.linkedIn.threePastPositions._total > 0;
-
-      this.$el.html(template(this.person));
+      this.$el.html(template(templateData));
       return this.$el;
     },
     onClickProfileCard: function() {
@@ -82,6 +86,28 @@
         }
       });
       $('.search-results').addClass('slide-in');
+      $.ajax({
+        url: '/get_users',
+        type: 'GET',
+        success: function(response) {
+          if (response.success) {
+            for (var i = 0; i < response.results.length; i++) {
+              var personData = preparePersonObject(response.results[i]);
+              var marker = new google.maps.Marker({
+                position: personData.location,
+                map: map,
+                title: personData.linkedIn.firstName
+              });
+              google.maps.event.addListener(marker, 'click', function() {
+                template = Handlebars.compile($('#profile-dialog-template').html());
+                vex.open({
+                  content: template(personData)
+                });
+              });
+            }
+          }
+        }
+      });
     },
     onSearchKeyUp: function(evt) {
       var c = evt.keyCode;

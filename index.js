@@ -48,13 +48,18 @@ app.post('/search', function(req, res) {
 });
 
 app.get('/get_users', function(req, res) {
-  var req = req.params.
-
   es.search({
     index: 'users',
-    size: 50,
-    body: {
-    }
+    size: 50
+  }).then(function(body) {
+    var sourceResults = body.hits.hits.filter(function(esResult) {
+      return true;//esResult._source.linkedIn['emailAddress'] !== currentUserEmail;
+    }).map(function(esResult) {
+      delete esResult._source.linkedIn['emailAddress'];
+      return esResult._source;
+    });
+
+    res.json({ success: true, results: sourceResults });
   });
 });
 
