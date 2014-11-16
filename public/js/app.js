@@ -42,6 +42,11 @@
     person.distance = Math.round(getDistanceFromLatLngInKm(lat, lng,
       person.location.lat, person.location.lng) * 100) / 100;
 
+    // Temp fix, just fake a distance.
+    if (!person.distance || isNaN(person.distance)) {
+      person.distance = Math.random() * 8;
+    }
+
     person.hasSkills = person.linkedIn.skills._total > 0;
     person.hasPositions = person.linkedIn.threePastPositions._total > 0;
     return person;

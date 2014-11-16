@@ -58,10 +58,12 @@ app.post('/contact', function(req, res) {
       ]
     }
 
-    mandrillClient.messages.send({
-      message: message || 'Connect with me!',
-      async: false
-    });
+    try {
+      mandrillClient.messages.send({
+        message: message || 'Connect with me!',
+        async: false
+      });
+    } catch(ex) {}
 
     res.json({ success: true });
   });;
