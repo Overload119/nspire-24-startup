@@ -10,7 +10,9 @@
     "express": "",
     "request": "",
     "elasticsearch": "",
-    "body-parser": ""
+    "body-parser": "",
+    "mandrill-api": "",
+    "node-uuid": ""
   },
   "author": "",
   "license": "MIT"

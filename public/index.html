@@ -62,7 +62,7 @@
       </div>
 
       <div class="information">
-        {{#if linkedin.interests}}
+        {{#if linkedIn.interests}}
           <div class="section">
             <div class="title">Interests</div>
             <p>{{ linkedIn.interests }}</p>
@@ -91,7 +91,8 @@
           </div>
         {{/if}}
       </div>
-      <button>Contact</button>
+      <textarea placeholder="Attach a message."></textarea>
+      <button data-uuid="{{ uuid }}">Contact</button>
     </div>
   </script>
 

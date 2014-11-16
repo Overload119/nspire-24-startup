@@ -47,6 +47,35 @@
     return person;
   }
 
+  $(document).on('click', '.profile-dialog button', function(evt) {
+    var $diaEl      = $(this).closest('.profile-dialog');
+    var shouldSend  = $(this).data('ready');
+    var uuid        = $(this).data('uuid');
+    if (shouldSend) {
+      var userMessage = $diaEl.find('textarea').val();
+      $.ajax({
+        url: '/contact',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          message: userMessage,
+          toUserUuid: uuid,
+          userEmail: linkedInResult.emailAddress
+        }),
+        success: function(response) {
+          if (response.success) {
+            $diaEl.find('button').prop('disabled', 'disabled').addClass('disabled').html('Sent!');
+            $diaEl.find('textarea').slideUp();
+          }
+        }
+      });
+    } else {
+      $(this).html('Send');
+      $(this).closest('.profile-dialog').find('textarea').slideDown();
+      $(this).data('ready', true);
+    }
+  });
+
   var ProfileCardView = Backbone.View.extend({
     events: {
       'click .profile-card': 'onClickProfileCard'
@@ -88,6 +117,7 @@
       $('.search-results').addClass('slide-in');
       $.ajax({
         url: '/get_users',
+        data: { userEmail: linkedInResult.emailAddress },
         type: 'GET',
         success: function(response) {
           if (response.success) {
@@ -104,8 +134,8 @@
                   vex.open({
                     content: template(personData)
                   });
-                  google.maps.event.addListener(marker, 'click', onClickMarker);
                 };
+                google.maps.event.addListener(marker, 'click', onClickMarker);
               })();
             }
           }
@@ -200,6 +230,8 @@
   var setupLinkedInProfile = function(response) {
     linkedInResult = response.values[0];
     saveUser();
+    // Once they login with LinkedIn, show result view.
+    new SearchResultView();
   }
 
   global.onLinkedInLoad = function() {
@@ -209,8 +241,6 @@
   global.onLinkedInAuth = function() {
     IN.API.Profile().ids('me').fields('email-address', 'interests', 'skills',
       'three-past-positions', 'first-name', 'headline', 'picture-url').result(setupLinkedInProfile);
-    // Once they login with LinkedIn, show result view.
-    new SearchResultView();
   }
 
   var centerGoogleMaps = function(lat, lng) {
@@ -220,7 +250,7 @@
       draggable: true,
       zoomControl: true,
       scrollwheel: true,
-      disableDoubleClickZoom: true
+      disableDoubleClickZoom: false
     });
   }
 
