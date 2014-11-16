@@ -84,6 +84,9 @@
           <div class="section">
             <div class="title">Worked At</div>
             <ul>
+            {{#each linkedIn.threeCurrentPositions.values}}
+              <li>{{ this.company.name }}</li>
+            {{/each}}
             {{#each linkedIn.threePastPositions.values}}
               <li>{{ this.company.name }}</li>
             {{/each}}

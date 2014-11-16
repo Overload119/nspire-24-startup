@@ -239,19 +239,21 @@
   }
 
   global.onLinkedInAuth = function() {
-    IN.API.Profile().ids('me').fields('email-address', 'interests', 'skills',
-      'three-past-positions', 'first-name', 'headline', 'picture-url').result(setupLinkedInProfile);
+    IN.API.Profile().ids('me').fields('email-address', 'interests', 'skills', '',
+      'three-past-positions', 'three-current-positions', 'first-name', 'headline', 'picture-url').result(setupLinkedInProfile);
   }
 
   var centerGoogleMaps = function(lat, lng) {
-    map.setOptions({
-      center: { lat: lat, lng: lng },
-      zoom: 15,
-      draggable: true,
-      zoomControl: true,
-      scrollwheel: true,
-      disableDoubleClickZoom: false
-    });
+    if (map) {
+      map.setOptions({
+        center: { lat: lat, lng: lng },
+        zoom: 15,
+        draggable: true,
+        zoomControl: true,
+        scrollwheel: true,
+        disableDoubleClickZoom: false
+      });
+    }
   }
 
   var loadGoogleMaps = function() {
