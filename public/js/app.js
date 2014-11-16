@@ -114,7 +114,7 @@
           centerGoogleMaps(lat, lng);
         }
       });
-      $('.search-results').addClass('slide-in');
+      $('.search-results').show().addClass('slide-in');
       $.ajax({
         url: '/get_users',
         data: { userEmail: linkedInResult.emailAddress },
@@ -156,9 +156,10 @@
         data: JSON.stringify({ query: query, userEmail: linkedInResult.emailAddress }),
         success: function(response) {
           if (response.success) {
+            this.$el.find('#search-result-list').empty();
             for (var i = 0; i < response.results.length; i++) {
               var profileCardView = new ProfileCardView({ person: response.results[i] });
-              this.$el.find('#search-result-list').empty().append( profileCardView.$el );
+              this.$el.find('#search-result-list').append( profileCardView.$el );
             }
           } else {
             this.$el.find('#search-result-list').empty().append('No results found.');
@@ -244,6 +245,7 @@
         zoomControl: true,
         scrollwheel: true,
         disableDoubleClickZoom: false
+        disableDefaultUI: false
       });
     }
   }
@@ -257,7 +259,8 @@
       draggable: false,
       zoomControl: false,
       scrollwheel: false,
-      disableDoubleClickZoom: true
+      disableDoubleClickZoom: true,
+      disableDefaultUI: true,
     };
 
     map = new google.maps.Map(document.getElementById('gmap'), mapOptions);

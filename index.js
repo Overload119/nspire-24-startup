@@ -90,6 +90,8 @@ app.post('/search', function(req, res) {
       delete esResult._source.linkedIn['emailAddress'];
       return esResult._source;
     });
+
+    console.log(sourceResults);
     res.json({ success: sourceResults.length > 0, results: sourceResults });
   });
 });

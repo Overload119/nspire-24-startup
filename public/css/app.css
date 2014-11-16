@@ -1,5 +1,6 @@
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
+  width: 100%;
 }
 
 button {
@@ -7,7 +8,6 @@ button {
 }
 
 .hero {
-  width: 100%;
   height: 600px;
   position: relative;
 }
@@ -39,6 +39,10 @@ button {
   padding: 0.4em;
   background: transparent;
   border-radius: 4px;
+}
+
+.hero .front button:hover {
+  border-color: #C8CFD3;
 }
 
 .hero.condense {
@@ -154,6 +158,7 @@ input[type=search]:active, input[type=search]:focus {
   opacity: 0;
   visibility: hidden;
   padding: 1em;
+  display: none;
 }
 
 .search-results.slide-in {
